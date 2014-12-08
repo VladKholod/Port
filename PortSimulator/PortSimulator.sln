@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{6D6FDAB1-C7E6-4393-AFD1-4CFC97E672AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortSimulator.Application", "PortSimulator.Application\PortSimulator.Application.csproj", "{9AB5ADF5-61BB-43F2-A463-726B6E801E56}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{DC7B03C5-EB77-4E06-9403-F4280A48CF45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortSimulator.Core", "PortSimulator.Core\PortSimulator.Core.csproj", "{A71BADAA-7FFD-4DFA-B07B-37D7DFB41CB7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseManager", "DatabaseManager", "{7D8085C3-841B-48FA-9A1C-F2E9F615B8D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortSimulator.DatabaseManager", "PortSimulator.PortManager\PortSimulator.DatabaseManager.csproj", "{16EA6B91-05CC-4E22-BFD1-BCFB783EC6CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AB5ADF5-61BB-43F2-A463-726B6E801E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AB5ADF5-61BB-43F2-A463-726B6E801E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AB5ADF5-61BB-43F2-A463-726B6E801E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AB5ADF5-61BB-43F2-A463-726B6E801E56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A71BADAA-7FFD-4DFA-B07B-37D7DFB41CB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A71BADAA-7FFD-4DFA-B07B-37D7DFB41CB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A71BADAA-7FFD-4DFA-B07B-37D7DFB41CB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A71BADAA-7FFD-4DFA-B07B-37D7DFB41CB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16EA6B91-05CC-4E22-BFD1-BCFB783EC6CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16EA6B91-05CC-4E22-BFD1-BCFB783EC6CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16EA6B91-05CC-4E22-BFD1-BCFB783EC6CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16EA6B91-05CC-4E22-BFD1-BCFB783EC6CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9AB5ADF5-61BB-43F2-A463-726B6E801E56} = {6D6FDAB1-C7E6-4393-AFD1-4CFC97E672AB}
+		{A71BADAA-7FFD-4DFA-B07B-37D7DFB41CB7} = {DC7B03C5-EB77-4E06-9403-F4280A48CF45}
+		{16EA6B91-05CC-4E22-BFD1-BCFB783EC6CB} = {7D8085C3-841B-48FA-9A1C-F2E9F615B8D0}
+	EndGlobalSection
+EndGlobal

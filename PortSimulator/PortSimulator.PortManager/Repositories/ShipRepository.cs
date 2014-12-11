@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
-
+using System.Threading.Tasks;
 using PortSimulator.Core.Entities;
-
 using PortSimulator.DatabaseManager.Repositories.RepositoryAbstractions;
 
 namespace PortSimulator.DatabaseManager.Repositories
@@ -21,13 +19,13 @@ namespace PortSimulator.DatabaseManager.Repositories
         {
             Ship ship = null;
 
-            string query = _queries["Select"];
+            var query = Queries["Select"];
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
 
                 try
                 {
@@ -35,14 +33,14 @@ namespace PortSimulator.DatabaseManager.Repositories
 
                     sqlCommand.Parameters.AddWithValue("@ID", id);
 
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    var reader = sqlCommand.ExecuteReader();
                     if (reader.Read())
                     {
                         ship = ReadEntity(reader);
                     }
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.WriteLine("Invalid ID");
                 }
@@ -53,27 +51,26 @@ namespace PortSimulator.DatabaseManager.Repositories
 
         public async Task Save(Ship entity)
         {
-            string query = string.Empty;
-
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlTransaction transaction = connection.BeginTransaction();
+                var transaction = connection.BeginTransaction();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
                 sqlCommand.Transaction = transaction;
 
                 try
                 {
+                    string query;
                     if (!entity.IsNew())
                     {
-                        query = _queries["Update"];
+                        query = Queries["Update"];
                         sqlCommand.CommandText = query;
-                        sqlCommand.Parameters.AddWithValue("@ID", entity.ID);
+                        sqlCommand.Parameters.AddWithValue("@ID", entity.Id);
                     }
                     else
                     {
-                        query = _queries["Insert"];
+                        query = Queries["Insert"];
                         sqlCommand.CommandText = query;
                     }
 
@@ -82,7 +79,7 @@ namespace PortSimulator.DatabaseManager.Repositories
                     sqlCommand.Parameters.AddWithValue("@CreateDate", entity.CreateDate);
                     sqlCommand.Parameters.AddWithValue("@MaxDistance", entity.MaxDistance);
                     sqlCommand.Parameters.AddWithValue("@TeamCount", entity.TeamCount);
-                    sqlCommand.Parameters.AddWithValue("@PortID", entity.PortID);
+                    sqlCommand.Parameters.AddWithValue("@PortID", entity.PortId);
 
                     await sqlCommand.ExecuteNonQueryAsync();
 
@@ -98,14 +95,14 @@ namespace PortSimulator.DatabaseManager.Repositories
 
         public async Task Delete(int id)
         {
-            string query = _queries["Delete"];
+            var query = Queries["Delete"];
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlTransaction transaction = connection.BeginTransaction();
+                var transaction = connection.BeginTransaction();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
                 sqlCommand.Transaction = transaction;
 
                 try
@@ -128,21 +125,21 @@ namespace PortSimulator.DatabaseManager.Repositories
 
         public List<Ship> GetAll()
         {
-            List<Ship> ships = new List<Ship>();
+            var ships = new List<Ship>();
 
-            string query = _queries["Select All"];
+            var query = Queries["Select All"];
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
 
                 try
                 {
                     sqlCommand.CommandText = query;
 
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    var reader = sqlCommand.ExecuteReader();
 
                     while (reader.Read())
                     {
@@ -165,30 +162,30 @@ namespace PortSimulator.DatabaseManager.Repositories
         {
             return new Ship()
                         {
-                            ID = int.Parse(reader[0].ToString().Trim()),
+                            Id = int.Parse(reader[0].ToString().Trim()),
                             Number = int.Parse(reader[1].ToString().Trim()),
                             Capacity = int.Parse(reader[2].ToString().Trim()),
                             CreateDate = DateTime.Parse(reader[3].ToString().Trim()),
                             MaxDistance = int.Parse(reader[4].ToString().Trim()),
                             TeamCount = int.Parse(reader[5].ToString().Trim()),
-                            PortID = int.Parse(reader[6].ToString().Trim())
+                            PortId = int.Parse(reader[6].ToString().Trim())
                         };
         }
 
         protected override void LoadBaseQueries()
         {
-            _queries.Add("Insert", "insert into Ship " +
+            Queries.Add("Insert", "insert into Ship " +
                 "(Number, Capacity, CreateDate, MaxDistance, TeamCount, PortID) " +
                 "values(@Number, @Capacity, @CreateDate, @MaxDistance, @TeamCount, @PortID);");
 
-            _queries.Add("Update", "update Ship set " +
+            Queries.Add("Update", "update Ship set " +
                 "Number = @Number, Capacity = @Capacity, CreateDate = @CreateDate, " +
                 "MaxDistance = @MaxDistance, TeamCount = @TeamCount, " +
                 "PortID = @PortID where ID = @ID;");
 
-            _queries.Add("Delete", "delete Ship where ID = @ID;");
-            _queries.Add("Select", "select * from Ship where ID = @ID;");
-            _queries.Add("Select All", "select * from Ship;");
+            Queries.Add("Delete", "delete Ship where ID = @ID;");
+            Queries.Add("Select", "select * from Ship where ID = @ID;");
+            Queries.Add("Select All", "select * from Ship;");
         }
         #endregion
     }

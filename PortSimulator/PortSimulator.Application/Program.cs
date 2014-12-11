@@ -1,25 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using PortSimulator.Core;
-using PortSimulator.Core.Entities;
-
-using PortSimulator.DatabaseManager;
-using PortSimulator.DatabaseManager.Repositories;
-
-using PortSimulator.Application.Views;
-using PortSimulator.Application.Views.Abstractions;
-
-namespace PortSimulator.Application
+﻿namespace PortSimulator.Application
 {
-    public sealed class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Application app = new Application();
+            var app = new Application();
             app.Start();
         }
     }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
-
+using System.Threading.Tasks;
 using PortSimulator.Core.Entities;
-
 using PortSimulator.DatabaseManager.Repositories.RepositoryAbstractions;
 
 namespace PortSimulator.DatabaseManager.Repositories
@@ -21,13 +19,13 @@ namespace PortSimulator.DatabaseManager.Repositories
         {
             City city = null;
 
-            string query = _queries["Select"];
+            var query = Queries["Select"];
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
 
                 try
                 {
@@ -35,14 +33,14 @@ namespace PortSimulator.DatabaseManager.Repositories
 
                     sqlCommand.Parameters.AddWithValue("@ID", id);
 
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    var reader = sqlCommand.ExecuteReader();
                     if (reader.Read())
                     {
                         city = ReadEntity(reader);
                     }
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.WriteLine("Invalid ID");
                 }
@@ -53,27 +51,26 @@ namespace PortSimulator.DatabaseManager.Repositories
 
         public async Task Save(City entity)
         {
-            string query = string.Empty;
-
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlTransaction transaction = connection.BeginTransaction();
+                var transaction = connection.BeginTransaction();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
                 sqlCommand.Transaction = transaction;
 
                 try
                 {
+                    string query;
                     if (!entity.IsNew())
                     {
-                        query = _queries["Update"];
+                        query = Queries["Update"];
                         sqlCommand.CommandText = query;
-                        sqlCommand.Parameters.AddWithValue("@ID", entity.ID);
+                        sqlCommand.Parameters.AddWithValue("@ID", entity.Id);
                     }
                     else
                     {
-                        query = _queries["Insert"];
+                        query = Queries["Insert"];
                         sqlCommand.CommandText = query;
                     }
 
@@ -93,14 +90,14 @@ namespace PortSimulator.DatabaseManager.Repositories
 
         public async Task Delete(int id)
         {
-            string query = _queries["Delete"];
+            var query = Queries["Delete"];
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlTransaction transaction = connection.BeginTransaction();
+                var transaction = connection.BeginTransaction();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
                 sqlCommand.Transaction = transaction;
 
                 try
@@ -123,21 +120,21 @@ namespace PortSimulator.DatabaseManager.Repositories
 
         public List<City> GetAll()
         {
-            List<City> cities = new List<City>();
+            var cities = new List<City>();
 
-            string query = _queries["Select All"];
+            var query = Queries["Select All"];
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
 
                 try
                 {
                     sqlCommand.CommandText = query;
 
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    var reader = sqlCommand.ExecuteReader();
 
                     while (reader.Read())
                     {
@@ -160,18 +157,18 @@ namespace PortSimulator.DatabaseManager.Repositories
         {
             return new City()
                         {
-                            ID = int.Parse(reader[0].ToString().Trim()),
+                            Id = int.Parse(reader[0].ToString().Trim()),
                             Name = reader[1].ToString().Trim()
                         };
         }
 
         protected override void LoadBaseQueries()
         {
-            _queries.Add("Insert", "insert into City (Name) values(@Name);");
-            _queries.Add("Update", "update City set Name = @Name where ID = @ID;");
-            _queries.Add("Delete", "delete City where ID = @ID;");
-            _queries.Add("Select", "select * from City where ID = @ID;");
-            _queries.Add("Select All", "select * from City;");
+            Queries.Add("Insert", "insert into City (Name) values(@Name);");
+            Queries.Add("Update", "update City set Name = @Name where ID = @ID;");
+            Queries.Add("Delete", "delete City where ID = @ID;");
+            Queries.Add("Select", "select * from City where ID = @ID;");
+            Queries.Add("Select All", "select * from City;");
         }
         #endregion
     }

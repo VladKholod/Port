@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
-
+using System.Threading.Tasks;
 using PortSimulator.Core.Entities;
-
 using PortSimulator.DatabaseManager.Repositories.RepositoryAbstractions;
 
 namespace PortSimulator.DatabaseManager.Repositories
@@ -21,13 +19,13 @@ namespace PortSimulator.DatabaseManager.Repositories
         {
             Port port = null;
 
-            string query = _queries["Select"];
+            var query = Queries["Select"];
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
 
                 try
                 {
@@ -35,14 +33,14 @@ namespace PortSimulator.DatabaseManager.Repositories
 
                     sqlCommand.Parameters.AddWithValue("@ID", id);
 
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    var reader = sqlCommand.ExecuteReader();
                     if (reader.Read())
                     {
                         port = ReadEntity(reader);
                     }
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.WriteLine("Invalid ID");
                 }
@@ -53,32 +51,31 @@ namespace PortSimulator.DatabaseManager.Repositories
 
         public async Task Save(Port entity)
         {
-            string query = string.Empty;
-
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlTransaction transaction = connection.BeginTransaction();
+                var transaction = connection.BeginTransaction();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
                 sqlCommand.Transaction = transaction;
 
                 try
                 {
+                    string query;
                     if (!entity.IsNew())
                     {
-                        query = _queries["Update"];
+                        query = Queries["Update"];
                         sqlCommand.CommandText = query;
-                        sqlCommand.Parameters.AddWithValue("@ID", entity.ID);
+                        sqlCommand.Parameters.AddWithValue("@ID", entity.Id);
                     }
                     else
                     {
-                        query = _queries["Insert"];
+                        query = Queries["Insert"];
                         sqlCommand.CommandText = query;
                     }
 
                     sqlCommand.Parameters.AddWithValue("@Name", entity.Name);
-                    sqlCommand.Parameters.AddWithValue("@CityID", entity.CityID);
+                    sqlCommand.Parameters.AddWithValue("@CityID", entity.CityId);
 
                     await sqlCommand.ExecuteNonQueryAsync();
 
@@ -94,14 +91,14 @@ namespace PortSimulator.DatabaseManager.Repositories
 
         public async Task Delete(int id)
         {
-            string query = _queries["Delete"];
+            var query = Queries["Delete"];
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlTransaction transaction = connection.BeginTransaction();
+                var transaction = connection.BeginTransaction();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
                 sqlCommand.Transaction = transaction;
 
                 try
@@ -124,21 +121,21 @@ namespace PortSimulator.DatabaseManager.Repositories
 
         public List<Port> GetAll()
         {
-            List<Port> ports = new List<Port>();
+            var ports = new List<Port>();
 
-            string query = _queries["Select All"];
+            var query = Queries["Select All"];
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
 
                 try
                 {
                     sqlCommand.CommandText = query;
 
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    var reader = sqlCommand.ExecuteReader();
 
                     while (reader.Read())
                     {
@@ -161,23 +158,23 @@ namespace PortSimulator.DatabaseManager.Repositories
         {
             return new Port()
                         {
-                            ID = int.Parse(reader[0].ToString().Trim()),
+                            Id = int.Parse(reader[0].ToString().Trim()),
                             Name = reader[1].ToString().Trim(),
-                            CityID = int.Parse(reader[2].ToString().Trim())
+                            CityId = int.Parse(reader[2].ToString().Trim())
                         };
         }
 
         protected override void LoadBaseQueries()
         {
-            _queries.Add("Insert", "insert into Port " +
+            Queries.Add("Insert", "insert into Port " +
                 "(Name, CityID) values(@Name, @CityID);");
 
-            _queries.Add("Update", "update Port set " +
+            Queries.Add("Update", "update Port set " +
                 "Name = @Name, CityID = @CityID where ID = @ID;");
 
-            _queries.Add("Delete", "delete Port where ID = @ID;");
-            _queries.Add("Select", "select * from Port where ID = @ID;");
-            _queries.Add("Select All", "select * from Port;");
+            Queries.Add("Delete", "delete Port where ID = @ID;");
+            Queries.Add("Select", "select * from Port where ID = @ID;");
+            Queries.Add("Select All", "select * from Port;");
         }
         #endregion
     }

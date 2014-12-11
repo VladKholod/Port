@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-
-using PortSimulator.Core.Entities;
-
 using PortSimulator.Application.Views.Abstractions;
+using PortSimulator.Core.Entities;
 
 namespace PortSimulator.Application.Views
 {
@@ -12,21 +10,21 @@ namespace PortSimulator.Application.Views
         #region BaseView
         public async override void CreateAsync()
         {
-            await _dbManager.TripRepository.Save(CreateEntity<Trip>(null));
+            await DbManager.TripRepository.Save(CreateEntity<Trip>(null));
             OnUpdate();
         }
 
         public async override void UpdateAsync()
         {
-            int id = SelectMenuItem(_catalog.Trips);
-            await _dbManager.TripRepository.Save(CreateEntity<Trip>(_catalog.Trips[id]));
+            var id = SelectMenuItem(Catalog.Trips);
+            await DbManager.TripRepository.Save(CreateEntity<Trip>(Catalog.Trips[id]));
             OnUpdate();
         }
 
         public async override void DeleteAsync()
         {
-            int id = SelectMenuItem(_catalog.Trips);
-            await _dbManager.TripRepository.Delete(_catalog.Trips[id].ID);
+            var id = SelectMenuItem(Catalog.Trips);
+            await DbManager.TripRepository.Delete(Catalog.Trips[id].Id);
             OnUpdate();
         }
 
@@ -34,11 +32,11 @@ namespace PortSimulator.Application.Views
         {
             try
             {
-                int id = int.Parse(Console.ReadLine());
+                var id = int.Parse(Console.ReadLine());
                 Console.WriteLine("ID\tStartDate\tEndDate\tShipID\tCapID\tPFromID\tPToID");
-                Console.WriteLine(_catalog.Trips.First(x => x.ID == id));
+                Console.WriteLine(Catalog.Trips.First(x => x.Id == id));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Any column current id.");
             }
@@ -47,7 +45,7 @@ namespace PortSimulator.Application.Views
         public override void ShowAll()
         {
             Console.WriteLine("ID\tStartDate\tEndDate\t\tShipID\tCapID\tPFromID\tPToID");
-            foreach (var trip in _catalog.Trips)
+            foreach (var trip in Catalog.Trips)
             {
                 Console.WriteLine(trip);
             }

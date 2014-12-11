@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-
-using PortSimulator.Core.Entities;
-
 using PortSimulator.Application.Views.Abstractions;
+using PortSimulator.Core.Entities;
 
 namespace PortSimulator.Application.Views
 {
@@ -12,21 +10,21 @@ namespace PortSimulator.Application.Views
         #region BaseView
         public async override void CreateAsync()
         {
-            await _dbManager.ShipRepository.Save(CreateEntity<Ship>(null));
+            await DbManager.ShipRepository.Save(CreateEntity<Ship>(null));
             OnUpdate();
         }
 
         public async override void UpdateAsync()
         {
-            int id = SelectMenuItem(_catalog.Ships);
-            await _dbManager.ShipRepository.Save(CreateEntity<Ship>(_catalog.Ships[id]));
+            var id = SelectMenuItem(Catalog.Ships);
+            await DbManager.ShipRepository.Save(CreateEntity<Ship>(Catalog.Ships[id]));
             OnUpdate();
         }
 
         public async override void DeleteAsync()
         {
-            int id = SelectMenuItem(_catalog.Ships);
-            await _dbManager.ShipRepository.Delete(_catalog.Ships[id].ID);
+            var id = SelectMenuItem(Catalog.Ships);
+            await DbManager.ShipRepository.Delete(Catalog.Ships[id].Id);
             OnUpdate();
         }
 
@@ -35,11 +33,11 @@ namespace PortSimulator.Application.Views
             
             try
             {
-                int id = int.Parse(Console.ReadLine());
+                var id = int.Parse(Console.ReadLine());
                 Console.WriteLine("ID\tNumber\tCapa\tCreateDate\tMaxDist\tTCount\tPortID");
-                Console.WriteLine(_catalog.Ships.First(x => x.ID == id));
+                Console.WriteLine(Catalog.Ships.First(x => x.Id == id));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Any column whit current id.");
             }
@@ -48,7 +46,7 @@ namespace PortSimulator.Application.Views
         public override void ShowAll()
         {
             Console.WriteLine("ID\tNumber\tCapa\tCreateDate\tMaxDist\tTCount\tPortID");
-            foreach (var trip in _catalog.Ships)
+            foreach (var trip in Catalog.Ships)
             {
                 Console.WriteLine(trip);
             }

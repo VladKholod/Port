@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-
-using PortSimulator.Core.Entities;
-
 using PortSimulator.Application.Views.Abstractions;
+using PortSimulator.Core.Entities;
 
 namespace PortSimulator.Application.Views
 {
@@ -12,21 +10,21 @@ namespace PortSimulator.Application.Views
         #region BaseView
         public async override void CreateAsync()
         {
-            await _dbManager.CityRepository.Save(CreateEntity<City>(null));
+            await DbManager.CityRepository.Save(CreateEntity<City>(null));
             OnUpdate();
         }
 
         public async override void UpdateAsync()
         {
-            int id = SelectMenuItem(_catalog.Cities);
-            await _dbManager.CityRepository.Save(CreateEntity<City>(_catalog.Cities[id]));
+            var id = SelectMenuItem(Catalog.Cities);
+            await DbManager.CityRepository.Save(CreateEntity<City>(Catalog.Cities[id]));
             OnUpdate();
         }
 
         public async override void DeleteAsync()
         {
-            int id = SelectMenuItem(_catalog.Cities);
-            await _dbManager.CityRepository.Delete(_catalog.Cities[id].ID);
+            var id = SelectMenuItem(Catalog.Cities);
+            await DbManager.CityRepository.Delete(Catalog.Cities[id].Id);
             OnUpdate();
         }
 
@@ -35,10 +33,10 @@ namespace PortSimulator.Application.Views
             Console.WriteLine("ID\tName");
             try
             {
-                int id = int.Parse(Console.ReadLine());
-                Console.WriteLine(_catalog.Cities.First(x => x.ID == id));
+                var id = int.Parse(Console.ReadLine());
+                Console.WriteLine(Catalog.Cities.First(x => x.Id == id));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Any column with current id.");
             }
@@ -47,7 +45,7 @@ namespace PortSimulator.Application.Views
         public override void ShowAll()
         {
             Console.WriteLine("ID\tName");
-            foreach (var trip in _catalog.Cities)
+            foreach (var trip in Catalog.Cities)
             {
                 Console.WriteLine(trip);
             }

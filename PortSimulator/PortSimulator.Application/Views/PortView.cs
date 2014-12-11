@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-
-using PortSimulator.Core.Entities;
-
 using PortSimulator.Application.Views.Abstractions;
+using PortSimulator.Core.Entities;
 
 namespace PortSimulator.Application.Views
 {
@@ -12,21 +10,21 @@ namespace PortSimulator.Application.Views
         #region BaseView
         public async override void CreateAsync()
         {
-            await _dbManager.PortRepository.Save(CreateEntity<Port>(null));
+            await DbManager.PortRepository.Save(CreateEntity<Port>(null));
             OnUpdate();
         }
 
         public async override void UpdateAsync()
         {
-            int id = SelectMenuItem(_catalog.Ports);
-            await _dbManager.PortRepository.Save(CreateEntity<Port>(_catalog.Ports[id]));
+            var id = SelectMenuItem(Catalog.Ports);
+            await DbManager.PortRepository.Save(CreateEntity<Port>(Catalog.Ports[id]));
             OnUpdate();
         }
 
         public async override void DeleteAsync()
         {
-            int id = SelectMenuItem(_catalog.Ports);
-            await _dbManager.PortRepository.Delete(_catalog.Ports[id].ID);
+            var id = SelectMenuItem(Catalog.Ports);
+            await DbManager.PortRepository.Delete(Catalog.Ports[id].Id);
             OnUpdate();
         }
 
@@ -35,10 +33,10 @@ namespace PortSimulator.Application.Views
             Console.WriteLine("ID\tName\tCityID");
             try
             {
-                int id = int.Parse(Console.ReadLine());
-                Console.WriteLine(_catalog.Ports.First(x => x.ID == id));
+                var id = int.Parse(Console.ReadLine());
+                Console.WriteLine(Catalog.Ports.First(x => x.Id == id));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Any column current id.");
             }
@@ -47,7 +45,7 @@ namespace PortSimulator.Application.Views
         public override void ShowAll()
         {
             Console.WriteLine("ID\tName\tCityID");
-            foreach (var trip in _catalog.Ports)
+            foreach (var trip in Catalog.Ports)
             {
                 Console.WriteLine(trip);
             }

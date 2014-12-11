@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PortSimulator.Core.Entities
+﻿namespace PortSimulator.Core.Entities
 {
     public abstract class Entity
     {
-        public int ID { get; set; }
-        
-        public Entity()
+        public int Id { get; set; }
+
+        protected Entity()
         {
-            ID = -1;
+            Id = -1;
         }
 
         public bool IsNew() 
         {
-            return ID == -1;
+            return Id == -1;
         }
     }
 }

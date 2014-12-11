@@ -1,32 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
 using System.ComponentModel;
-
 using PortSimulator.Core;
 using PortSimulator.Core.Entities;
-
 using PortSimulator.DatabaseManager;
-using PortSimulator.DatabaseManager.Repositories;
-
-using PortSimulator.Application.Views;
-using PortSimulator.Application.Views.Abstractions;
 
 namespace PortSimulator.Application.Views.Abstractions
 {
+    public delegate void UpdateEventHandler();
+
     public abstract class BaseView
     {
-        public delegate void UpdateEventHandler();
+        protected readonly UpdateEventHandler OnUpdate;
 
-        public UpdateEventHandler OnUpdate;
+        protected readonly Catalog Catalog = new Catalog();
+        protected readonly DbManager DbManager = new DbManager();
 
-        protected Catalog _catalog = new Catalog();
-        protected DbManager _dbManager = new DbManager();
-
-        public BaseView()
+        protected BaseView()
         {
             OnUpdate += UpdateCatalog;
             OnUpdate();
@@ -40,7 +30,7 @@ namespace PortSimulator.Application.Views.Abstractions
 
         protected T CreateEntity<T>(Entity entity) where T : Entity
         {
-            Type type = typeof(T);
+            var type = typeof(T);
 
             Console.WriteLine(type.Name + ":");
 
@@ -50,20 +40,20 @@ namespace PortSimulator.Application.Views.Abstractions
                 instance = Activator.CreateInstance(type);
              
 
-            foreach (PropertyInfo property in type.GetProperties())
+            foreach (var property in type.GetProperties())
             {
-                if (property.Name.Equals("ID"))
+                if (property.Name.Equals("Id"))
                 {
                     continue;
                 }
 
-                bool flag = true;
+                var flag = true;
                 while (flag)
                 {
                     try
                     {
                         Console.Write("{0} : ", property.Name);
-                        string value = Console.ReadLine();
+                        var value = Console.ReadLine();
                         if (value != string.Empty)
                         {
                             var converter = TypeDescriptor.GetConverter(property.PropertyType);
@@ -73,7 +63,7 @@ namespace PortSimulator.Application.Views.Abstractions
 
                         flag = false;
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         Console.WriteLine("Invalid value");
                     }
@@ -85,21 +75,21 @@ namespace PortSimulator.Application.Views.Abstractions
 
         public void UpdateCatalog() 
         {
-            _catalog.Captains = _dbManager.CaptainRepository.GetAll();
-            _catalog.Cargos = _dbManager.CargoRepository.GetAll();
-            _catalog.CargoTypes = _dbManager.CargoTypeRepository.GetAll();
-            _catalog.Cities = _dbManager.CityRepository.GetAll();
-            _catalog.Ports = _dbManager.PortRepository.GetAll();
-            _catalog.Ships = _dbManager.ShipRepository.GetAll();
-            _catalog.Trips = _dbManager.TripRepository.GetAll();
+            Catalog.Captains = DbManager.CaptainRepository.GetAll();
+            Catalog.Cargos = DbManager.CargoRepository.GetAll();
+            Catalog.CargoTypes = DbManager.CargoTypeRepository.GetAll();
+            Catalog.Cities = DbManager.CityRepository.GetAll();
+            Catalog.Ports = DbManager.PortRepository.GetAll();
+            Catalog.Ships = DbManager.ShipRepository.GetAll();
+            Catalog.Trips = DbManager.TripRepository.GetAll();
         }
 
         protected int SelectMenuItem<T>(List<T> entities)
         {
             Console.CursorVisible = false;
-            int currentMenuItem = 0;
+            var currentMenuItem = 0;
 
-            List<string> items = new List<string>();
+            var items = new List<string>();
 
             foreach (var item in entities) 
             {
@@ -110,7 +100,7 @@ namespace PortSimulator.Application.Views.Abstractions
             {
                 DisplayItems(items, currentMenuItem);
 
-                ConsoleKeyInfo key = Console.ReadKey(true);
+                var key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.UpArrow)
                 {
                     if (currentMenuItem > 0)
@@ -132,7 +122,7 @@ namespace PortSimulator.Application.Views.Abstractions
         protected void DisplayItems(List<string> items, int selectedMenuItem)
         {
             Console.Clear();
-            for (int i = 0; i < items.Count; i++)
+            for (var i = 0; i < items.Count; i++)
             {
                 Console.WriteLine("{0} {1}", i == selectedMenuItem ? "    >\t" : "\t", items[i]);
             }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Collections.Generic;
 using PortSimulator.Core.Entities;
 
 namespace PortSimulator.Core
@@ -17,9 +12,5 @@ namespace PortSimulator.Core
         public List<Port> Ports { get; set; }
         public List<Ship> Ships { get; set; }
         public List<Trip> Trips { get; set; }
-
-        public Catalog()
-        { 
-        }
     }
 }

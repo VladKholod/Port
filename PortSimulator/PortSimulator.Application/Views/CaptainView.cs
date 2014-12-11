@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-
-using PortSimulator.Core.Entities;
-
 using PortSimulator.Application.Views.Abstractions;
+using PortSimulator.Core.Entities;
 
 namespace PortSimulator.Application.Views
 {
@@ -12,21 +10,21 @@ namespace PortSimulator.Application.Views
         #region BaseView
         public async override void CreateAsync()
         {
-            await _dbManager.CaptainRepository.Save(CreateEntity<Captain>(null));
+            await DbManager.CaptainRepository.Save(CreateEntity<Captain>(null));
             OnUpdate();
         }
 
         public async override void UpdateAsync()
         {
-            int id = SelectMenuItem(_catalog.Captains);
-            await _dbManager.CaptainRepository.Save(CreateEntity<Captain>(_catalog.Captains[id]));
+            var id = SelectMenuItem(Catalog.Captains);
+            await DbManager.CaptainRepository.Save(CreateEntity<Captain>(Catalog.Captains[id]));
             OnUpdate();
         }
 
         public async override void DeleteAsync()
         {
-            int id = SelectMenuItem(_catalog.Captains);
-            await _dbManager.CaptainRepository.Delete(_catalog.Captains[id].ID);
+            var id = SelectMenuItem(Catalog.Captains);
+            await DbManager.CaptainRepository.Delete(Catalog.Captains[id].Id);
             OnUpdate();
         }
 
@@ -34,11 +32,11 @@ namespace PortSimulator.Application.Views
         {
             try
             {
-                int id = int.Parse(Console.ReadLine());
+                var id = int.Parse(Console.ReadLine());
                 Console.WriteLine("ID\tFName\tLName");
-                Console.WriteLine(_catalog.Captains.First(x => x.ID == id));
+                Console.WriteLine(Catalog.Captains.First(x => x.Id == id));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Any column with current id.");
             }
@@ -47,7 +45,7 @@ namespace PortSimulator.Application.Views
         public override void ShowAll()
         {
             Console.WriteLine("ID\tFName\tLName");
-            foreach (var trip in _catalog.Captains)
+            foreach (var trip in Catalog.Captains)
             {
                 Console.WriteLine(trip);
             }

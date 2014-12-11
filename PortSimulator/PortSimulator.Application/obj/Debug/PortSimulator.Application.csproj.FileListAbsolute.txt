@@ -8,3 +8,13 @@ D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\PortSimulator\PortSimulator.Ap
 D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\PortSimulator\PortSimulator.Application\bin\Debug\PortSimulator.Core.pdb
 D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\PortSimulator\PortSimulator.Application\bin\Debug\PortSimulator.DatabaseManager.dll
 D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\PortSimulator\PortSimulator.Application\bin\Debug\PortSimulator.DatabaseManager.pdb
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Application\bin\Debug\PortSimulator.Application.exe.config
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Application\obj\Debug\PortSimulator.Application.exe
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Application\obj\Debug\PortSimulator.Application.pdb
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Application\bin\Debug\PortSimulator.Application.exe
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Application\bin\Debug\PortSimulator.Application.pdb
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Application\bin\Debug\PortSimulator.Core.dll
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Application\bin\Debug\PortSimulator.DatabaseManager.dll
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Application\bin\Debug\PortSimulator.Core.pdb
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Application\bin\Debug\PortSimulator.DatabaseManager.pdb
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Application\obj\Debug\PortSimulator.Application.csprojResolveAssemblyReference.cache

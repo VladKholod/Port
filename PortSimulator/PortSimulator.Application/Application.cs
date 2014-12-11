@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using PortSimulator.Core;
-using PortSimulator.Core.Entities;
-
-using PortSimulator.DatabaseManager;
-using PortSimulator.DatabaseManager.Repositories;
-
 using PortSimulator.Application.Views;
 using PortSimulator.Application.Views.Abstractions;
+using PortSimulator.Core.Entities;
+using PortSimulator.DatabaseManager;
 
 namespace PortSimulator.Application
 {
@@ -97,7 +90,7 @@ namespace PortSimulator.Application
         private void DisplayMenu(List<string> items, int selectedMenuItem)
         {
             Console.Clear();
-            for (int i = 0; i < items.Count; i++)
+            for (var i = 0; i < items.Count; i++)
             {
                 Console.WriteLine("{0} {1}", i == selectedMenuItem ? "    >\t" : "\t", items[i]);
             }
@@ -115,12 +108,12 @@ namespace PortSimulator.Application
         private void SelectMenuItem(List<string> items)
         {
             Console.CursorVisible = false;
-            int currentMenuItem = 0;
+            var currentMenuItem = 0;
             while (true)
             {
                 DisplayMenu(items, currentMenuItem);
 
-                ConsoleKeyInfo key = Console.ReadKey(true);
+                var key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.UpArrow)
                 {
                     if (currentMenuItem > 0)
@@ -143,12 +136,12 @@ namespace PortSimulator.Application
         private void SelectSubMenuItem(List<string> items)
         {
             Console.CursorVisible = false;
-            int currentSubMenuItem = 0;
+            var currentSubMenuItem = 0;
             while (true)
             {
                 DisplayMenu(items, currentSubMenuItem);
 
-                ConsoleKeyInfo key = Console.ReadKey(true);
+                var key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.UpArrow)
                 {
                     if (currentSubMenuItem > 0)

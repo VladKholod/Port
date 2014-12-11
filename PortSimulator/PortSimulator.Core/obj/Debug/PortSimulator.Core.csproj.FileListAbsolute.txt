@@ -3,3 +3,8 @@ D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\PortSimulator\PortSimulator.Co
 D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\PortSimulator\PortSimulator.Core\obj\Debug\PortSimulator.Core.dll
 D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\PortSimulator\PortSimulator.Core\obj\Debug\PortSimulator.Core.pdb
 D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\PortSimulator\PortSimulator.Core\obj\Debug\PortSimulator.Core.csprojResolveAssemblyReference.cache
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Core\bin\Debug\PortSimulator.Core.dll
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Core\bin\Debug\PortSimulator.Core.pdb
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Core\obj\Debug\PortSimulator.Core.csprojResolveAssemblyReference.cache
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Core\obj\Debug\PortSimulator.Core.dll
+D:\Workspace\VisualStudio 2013\_NixSolutionsTasks\Port\PortSimulator\PortSimulator.Core\obj\Debug\PortSimulator.Core.pdb

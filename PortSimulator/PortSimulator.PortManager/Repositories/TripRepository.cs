@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
-
+using System.Threading.Tasks;
 using PortSimulator.Core.Entities;
-
 using PortSimulator.DatabaseManager.Repositories.RepositoryAbstractions;
 
 namespace PortSimulator.DatabaseManager.Repositories
@@ -21,13 +19,13 @@ namespace PortSimulator.DatabaseManager.Repositories
         {
             Trip trip = null;
 
-            string query = _queries["Select"];
+            var query = Queries["Select"];
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
 
                 try
                 {
@@ -35,14 +33,14 @@ namespace PortSimulator.DatabaseManager.Repositories
 
                     sqlCommand.Parameters.AddWithValue("@ID", id);
 
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    var reader = sqlCommand.ExecuteReader();
                     if (reader.Read())
                     {
                         trip = ReadEntity(reader);
                     }
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.WriteLine("Invalid ID");
                 }
@@ -53,36 +51,35 @@ namespace PortSimulator.DatabaseManager.Repositories
 
         public async Task Save(Trip entity)
         {
-            string query = string.Empty;
-
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlTransaction transaction = connection.BeginTransaction();
+                var transaction = connection.BeginTransaction();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
                 sqlCommand.Transaction = transaction;
 
                 try
                 {
+                    string query;
                     if (!entity.IsNew())
                     {
-                        query = _queries["Update"];
+                        query = Queries["Update"];
                         sqlCommand.CommandText = query;
-                        sqlCommand.Parameters.AddWithValue("@ID", entity.ID);
+                        sqlCommand.Parameters.AddWithValue("@ID", entity.Id);
                     }
                     else
                     {
-                        query = _queries["Insert"];
+                        query = Queries["Insert"];
                         sqlCommand.CommandText = query;
                     }
 
                     sqlCommand.Parameters.AddWithValue("@StartDate", entity.StartDate);
                     sqlCommand.Parameters.AddWithValue("@EndDate", entity.EndDate);
-                    sqlCommand.Parameters.AddWithValue("@ShipID", entity.ShipID);
-                    sqlCommand.Parameters.AddWithValue("@CaptainID", entity.CaptainID);
-                    sqlCommand.Parameters.AddWithValue("@PortFromID", entity.PortFromID);
-                    sqlCommand.Parameters.AddWithValue("@PortToID", entity.PortToID);
+                    sqlCommand.Parameters.AddWithValue("@ShipID", entity.ShipId);
+                    sqlCommand.Parameters.AddWithValue("@CaptainID", entity.CaptainId);
+                    sqlCommand.Parameters.AddWithValue("@PortFromID", entity.PortFromId);
+                    sqlCommand.Parameters.AddWithValue("@PortToID", entity.PortToId);
 
                     await sqlCommand.ExecuteNonQueryAsync();
 
@@ -98,14 +95,14 @@ namespace PortSimulator.DatabaseManager.Repositories
 
         public async Task Delete(int id)
         {
-            string query = _queries["Delete"];
+            var query = Queries["Delete"];
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlTransaction transaction = connection.BeginTransaction();
+                var transaction = connection.BeginTransaction();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
                 sqlCommand.Transaction = transaction;
 
                 try
@@ -128,21 +125,21 @@ namespace PortSimulator.DatabaseManager.Repositories
 
         public List<Trip> GetAll()
         {
-            List<Trip> trips = new List<Trip>();
+            var trips = new List<Trip>();
 
-            string query = _queries["Select All"];
+            var query = Queries["Select All"];
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                SqlCommand sqlCommand = connection.CreateCommand();
+                var sqlCommand = connection.CreateCommand();
 
                 try
                 {
                     sqlCommand.CommandText = query;
 
-                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    var reader = sqlCommand.ExecuteReader();
 
                     while (reader.Read())
                     {
@@ -165,30 +162,30 @@ namespace PortSimulator.DatabaseManager.Repositories
         {
             return new Trip()
                         {
-                            ID = int.Parse(reader[0].ToString().Trim()),
+                            Id = int.Parse(reader[0].ToString().Trim()),
                             StartDate = DateTime.Parse(reader[1].ToString().Trim()),
                             EndDate = DateTime.Parse(reader[2].ToString().Trim()),
-                            ShipID = int.Parse(reader[3].ToString().Trim()),
-                            CaptainID = int.Parse(reader[4].ToString().Trim()),
-                            PortFromID = int.Parse(reader[5].ToString().Trim()),
-                            PortToID = int.Parse(reader[6].ToString().Trim())
+                            ShipId = int.Parse(reader[3].ToString().Trim()),
+                            CaptainId = int.Parse(reader[4].ToString().Trim()),
+                            PortFromId = int.Parse(reader[5].ToString().Trim()),
+                            PortToId = int.Parse(reader[6].ToString().Trim())
                         };
         }
 
         protected override void LoadBaseQueries()
         {
-            _queries.Add("Insert", "insert into Trip " +
+            Queries.Add("Insert", "insert into Trip " +
                 "(StartDate, EndDate, ShipID, CaptainID, PortFromID, PortToID) " +
                 "values(@StartDate, @EndDate, @ShipID, @CaptainID, @PortFromID, @PortToID);");
 
-            _queries.Add("Update", "update Trip set " +
+            Queries.Add("Update", "update Trip set " +
                 "StartDate = @StartDate, EndDate = @EndDate, ShipID = @ShipID, " +
                 "CaptainID = @CaptainID, PortFromID = @PortFromID, " +
                 "PortToID = @PortToID where ID = @ID;");
 
-            _queries.Add("Delete", "delete Trip where ID = @ID;");
-            _queries.Add("Select", "select * from Trip where ID = @ID;");
-            _queries.Add("Select All", "select * from Trip;");
+            Queries.Add("Delete", "delete Trip where ID = @ID;");
+            Queries.Add("Select", "select * from Trip where ID = @ID;");
+            Queries.Add("Select All", "select * from Trip;");
         }
         #endregion
     }

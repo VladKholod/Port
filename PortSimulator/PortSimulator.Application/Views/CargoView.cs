@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-
-using PortSimulator.Core.Entities;
-
 using PortSimulator.Application.Views.Abstractions;
+using PortSimulator.Core.Entities;
 
 namespace PortSimulator.Application.Views
 {
@@ -12,21 +10,21 @@ namespace PortSimulator.Application.Views
         #region BaseView
         public async override void CreateAsync()
         {
-            await _dbManager.CargoRepository.Save(CreateEntity<Cargo>(null));
+            await DbManager.CargoRepository.Save(CreateEntity<Cargo>(null));
             OnUpdate();
         }
 
         public async override void UpdateAsync()
         {
-            int id = SelectMenuItem(_catalog.Cargos);
-            await _dbManager.CargoRepository.Save(CreateEntity<Cargo>(_catalog.Cargos[id]));
+            var id = SelectMenuItem(Catalog.Cargos);
+            await DbManager.CargoRepository.Save(CreateEntity<Cargo>(Catalog.Cargos[id]));
             OnUpdate();
         }
 
         public async override void DeleteAsync()
         {
-            int id = SelectMenuItem(_catalog.Cargos);
-            await _dbManager.CargoRepository.Delete(_catalog.Cargos[id].ID);
+            var id = SelectMenuItem(Catalog.Cargos);
+            await DbManager.CargoRepository.Delete(Catalog.Cargos[id].Id);
             OnUpdate();
         }
 
@@ -34,11 +32,11 @@ namespace PortSimulator.Application.Views
         {
             try
             {
-                int id = int.Parse(Console.ReadLine());
+                var id = int.Parse(Console.ReadLine());
                 Console.WriteLine("ID\tNumber\tWeight\tPrice\tIPrice\tCTypeID\tTripID");
-                Console.WriteLine(_catalog.Cargos.First(x => x.ID == id));
+                Console.WriteLine(Catalog.Cargos.First(x => x.Id == id));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Any column current id.");
             }
@@ -47,7 +45,7 @@ namespace PortSimulator.Application.Views
         public override void ShowAll()
         {
             Console.WriteLine("ID\tNumber\tWeight\tPrice\tIPrice\tCTypeID\tTripID");
-            foreach (var trip in _catalog.Cargos)
+            foreach (var trip in Catalog.Cargos)
             {
                 Console.WriteLine(trip);
             }
